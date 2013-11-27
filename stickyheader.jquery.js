@@ -1,3 +1,8 @@
+function queryWidth(el){
+	var width = $(el).width() + Number($(el).css('padding-left').replace(/px/ig,"")) + Number($(el).css('padding-right').replace(/px/ig,"")) + Number($(el).css('border-left-width').replace(/px/ig,"")) + Number($(el).css('border-right-width').replace(/px/ig,""));;
+	return width;
+};
+
 $(document).ready(function () {
 	var tables = $('table.stickyHeader');
 	tables.each(function(i){
@@ -9,7 +14,6 @@ $(document).ready(function () {
 		$(table).after(stickyHeader);
 		
 		var tableHeight = $(table).height();
-		var tableWidth = $(table).width() + Number($(table).css('padding-left').replace(/px/ig,"")) + Number($(table).css('padding-right').replace(/px/ig,"")) + Number($(table).css('border-left-width').replace(/px/ig,"")) + Number($(table).css('border-right-width').replace(/px/ig,""));
 		
 		var headerCells = $(table).find('thead th');
 		var headerCellHeight = $(headerCells[0]).height();
@@ -20,7 +24,7 @@ $(document).ready(function () {
 		}
 		
 		var stickyHeaderCells = stickyHeader.find('th');
-		stickyHeader.css('width', tableWidth);
+
 		var cellWidths = [];
 		for (var i = 0, l = headerCells.length; i < l; i++) {
 			cellWidths[i] = $(headerCells[i]).width();
@@ -35,6 +39,7 @@ $(document).ready(function () {
 		$(window).scroll(function() { 
 		var currentPosition = $(window).scrollTop();
 			if (currentPosition > cutoffTop && currentPosition < cutoffBottom) {
+				stickyHeader.css('width', queryWidth(table));
 				stickyHeader.removeClass('hide');
 				if (no_fixed_support) {
 					stickyHeader.css('top', currentPosition + 'px');
