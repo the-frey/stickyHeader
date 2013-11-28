@@ -3,6 +3,11 @@ function queryWidth(el){
 	return width;
 };
 
+function queryHeight(el){
+	var height = $(el).height();
+	return height;
+};
+
 $(document).ready(function () {
 	var tables = $('table.stickyHeader');
 	tables.each(function(i){
@@ -12,8 +17,6 @@ $(document).ready(function () {
 		var stickyHeader =  $('<div></div>').addClass('stickyHeader hide').attr('aria-hidden', 'true');
 		stickyHeader.append(tableClone).find('table').append(theadClone);
 		$(table).after(stickyHeader);
-		
-		var tableHeight = $(table).height();
 		
 		var headerCells = $(table).find('thead th');
 		var headerCellHeight = $(headerCells[0]).height();
@@ -34,10 +37,11 @@ $(document).ready(function () {
 		}
 		
 		var cutoffTop = $(table).offset().top;
-		var cutoffBottom = tableHeight + cutoffTop - headerCellHeight;
 		
 		$(window).scroll(function() { 
-		var currentPosition = $(window).scrollTop();
+			tableHeight = queryHeight(table);
+			var cutoffBottom = tableHeight + cutoffTop - headerCellHeight;
+			var currentPosition = $(window).scrollTop();
 			if (currentPosition > cutoffTop && currentPosition < cutoffBottom) {
 				stickyHeader.css('width', queryWidth(table));
 				stickyHeader.removeClass('hide');
