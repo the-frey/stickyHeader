@@ -53,5 +53,9 @@ $(document).ready(function () {
 				stickyHeader.addClass('hide');
 			}
 		});
+
+		$(window).resize(function() {
+		  stickyHeader.css('width', queryWidth(table));
+		});
 	});
 });
